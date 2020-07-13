@@ -79,8 +79,11 @@ def crawlDHR(driver, product_no, wb, i):
     #wb = openpyxl.load_workbook('/var/www/html/prod_batch_sample.xlsx')
     #wb = openpyxl.load_workbook('prod_batch_sample.xlsx')
     ws = wb.active
-
-    try: 
+    count = int((i-3)/50)
+    img_path = "/var/www/html/downloads/"+str(count)
+    if not os.path.isdir(img_path) :
+        os.mkdir(img_path)
+    try :
         driver.get(URL)
         name = driver.find_element_by_class_name("item_name").text
         price = driver.find_element_by_id("span_product_price_text").text
@@ -93,19 +96,19 @@ def crawlDHR(driver, product_no, wb, i):
         product_code = driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/div[2]/div[2]/div[4]/table/tbody/tr[8]/td/span").text
         detail = driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/div[2]/div[2]/div[4]/table/tbody/tr[6]/td/span").text
         img1 = driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/div[2]/div[1]/div[1]/div[1]/a/img").get_attribute('src')
-        urllib.request.urlretrieve(img1, "/var/www/html/downloads/sample"+str(i-3)+"-1.jpg")
+        urllib.request.urlretrieve(img1, img_path+"/sample"+str(i-3)+"-1.jpg")
         img2 = driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/div[2]/div[1]/div[2]/ul/li[2]/img").get_attribute('src')
         img2 = img2.replace('small', 'big')
-        urllib.request.urlretrieve(img2, "/var/www/html/downloads/sample"+str(i-3)+"-2.jpg")
+        urllib.request.urlretrieve(img2, img_path+"/sample"+str(i-3)+"-2.jpg")
         img3 = driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/div[2]/div[1]/div[2]/ul/li[3]/img").get_attribute('src')
         img3 = img3.replace('small', 'big')
-        urllib.request.urlretrieve(img3, "/var/www/html/downloads/sample"+str(i-3)+"-3.jpg") 
+        urllib.request.urlretrieve(img3, img_path+"/sample"+str(i-3)+"-3.jpg") 
         img4 = driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/div[2]/div[1]/div[2]/ul/li[4]/img").get_attribute('src')
         img4 = img4.replace('small', 'big')
-        urllib.request.urlretrieve(img4, "/var/www/html/downloads/sample"+str(i-3)+"-4.jpg") 
+        urllib.request.urlretrieve(img4, img_path+"/sample"+str(i-3)+"-4.jpg") 
         img5 = driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/div[2]/div[1]/div[2]/ul/li[5]/img").get_attribute('src')
         img5 = img5.replace('small', 'big')
-        urllib.request.urlretrieve(img5, "/var/www/html/downloads/sample"+str(i-3)+"-5.jpg") 
+        urllib.request.urlretrieve(img5, img_path+"/sample"+str(i-3)+"-5.jpg") 
         tmp_select = driver.find_element_by_xpath("/html/body/div[4]/div/div/div[2]/div[2]/div[2]/div[6]/div[4]/div/div[1]/div/div[1]/table/tbody[2]/tr/td/select/option[3]").click()
 
         img_list = 'sample' + str(i-3) + '-1.jpg'
@@ -183,8 +186,8 @@ def crawlDHR(driver, product_no, wb, i):
             ws.cell(row=i, column=70).value = 'N'
         else :
             print(product_no + " sold out")
-    except:
-        print(product_no + " 제품이 존재하지 않습니다")
+    except :
+        print(product_no + "상품이 존재하지 않습니다")
 
 if __name__ == '__main__':
     cate_no = sys.argv[1]

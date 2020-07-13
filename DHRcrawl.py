@@ -58,19 +58,18 @@ def login(driver):
 
 def crawlDHR_cate(driver, cate_no):
     URL = "http://danharoo.com/product/list.html?cate_no="+cate_no
-    try:
-        driver.get(URL)
-        html = driver.page_source
-        soup = BeautifulSoup(html, 'html.parser')
-        tag = soup.select(
-            'ul>li>div>a'
-        )
-        product_list = ''
-        for x in tag :
-            s = str(x).find('product_no=')
-            product_list = product_list + str(x)[s+11:s+16] +','
+    driver.get(URL)
+    html = driver.page_source
+    soup = BeautifulSoup(html, 'html.parser')
+    tag = soup.select(
+        'ul>li>div>a'
+    )
+    product_list = ''
+    for x in tag :
+        s = str(x).find('product_no=')
+        product_list = product_list + str(x)[s+11:s+16] +','
 
-        return product_list
+    return product_list
 
 def crawlDHR(driver, product_no, wb, i):
     URL = "http://danharoo.com/product/detail.html?product_no="+product_no
