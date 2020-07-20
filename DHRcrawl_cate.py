@@ -44,8 +44,8 @@ def removeExtensionFile(filePath, fileExtension):
         return 'Directory Not Found'
 
 def login(driver):
-    username = "dlcjs1104"
-    password = "slwm2000"
+    username = ""
+    password = ""
 
     driver.get("http://danharoo.com/member/login.html")
 
